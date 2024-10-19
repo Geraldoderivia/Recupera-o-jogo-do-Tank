@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            FindFirstObjectByType<LobbyUIManager>().MostrarResultados();
+            FindFirstObjectByType<UIManager>().MostrarResultados();
         }
     }
 
