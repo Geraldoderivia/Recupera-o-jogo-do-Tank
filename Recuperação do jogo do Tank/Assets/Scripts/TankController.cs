@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Pun.Demo.PunBasics;
+
 
 public class TankController : MonoBehaviourPun
 {
@@ -17,13 +19,29 @@ public class TankController : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
+        gm = FindFirstObjectByType<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (gm.ehGameOver)
+        {
+            return;
+        }
+
+        //Verifica se "sou eu"
+        if (photonView.IsMine)
+        {
+            //Obtém o comando de girar o tanque (A ou D)
+            float moverHorizonalmente = Input.GetAxis("Horizontal");
+
+            //Obtém o comando de mover o tanque (W ou S)
+            float moverVerticalmente = Input.GetAxis("Vertical");
+
+            MoverTanque(moverHorizonalmente, moverVerticalmente);
+        }
     }
 
     void MoverTanque(float moverHorizonalmente, float moverVerticalmente)
@@ -43,5 +61,19 @@ public class TankController : MonoBehaviourPun
         //No caso deste jogo, ao receber um dano, o tanque é teleportado para a área de respawn
         //Por este motivo, envia uma mensagem ao dono deste tanque para que ele resete a posição pois só ele pode fazer isso
         photonView.RPC("ResetarPosicaoNoSpawn", photonView.Owner);
+    }
+
+    //Método responsável por resetar a posição
+    [PunRPC]
+    public void ResetarPosicaoNoSpawn()
+    {
+        //Obtém a posição com base no player
+        var localizacaoSpawn1 = FindFirstObjectByType<GameManager>().ObterLocalizacaoSpawn(photonView.Owner);
+
+        //Seta ao tanque, a posição do respawn
+        transform.position = localizacaoSpawn1.transform.position;
+
+        //Seta ao tanque, a rotação do respawn
+        transform.rotation = localizacaoSpawn1.transform.rotation;
     }
 }
