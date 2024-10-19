@@ -49,4 +49,26 @@ public class UIManager : MonoBehaviourPunCallbacks
             textStatus.text = "Aguardando dono da sala iniciar a partida";
         }
     }
+
+    //Métdo executado ao clicar no botão de iniciar a partida
+    public void OnClickButtonIniciarPartida()
+    {
+        //Verifica se "eu sou" o host da sessão e, caso for, inicia a partida com todos que estão em sala
+        if (PhotonNetwork.IsMasterClient)
+        {
+            //Envia uma mensagem via RPC avisando todos os jogadores que a partida deve começar
+            photonView.RPC("IniciarPartidaParaTodos", RpcTarget.All);
+        }
+    }
+
+    //Métdo executado ao clicar no botão de iniciar a partida
+    public void OnClickButtonRecomecarPartida()
+    {
+        //Verifica se "eu sou" o host da sessão e, caso for, inicia a partida com todos que estão em sala
+        if (PhotonNetwork.IsMasterClient)
+        {
+            //Envia uma mensagem via RPC avisando todos os jogadores que a partida deve ser reiniciada
+            photonView.RPC("RecomecarPartidaParaTodos", RpcTarget.All);
+        }
+    }
 }
