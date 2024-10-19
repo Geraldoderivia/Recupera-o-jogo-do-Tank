@@ -91,4 +91,24 @@ public class UIManager : MonoBehaviourPunCallbacks
             buttonRecomecarPartida.gameObject.SetActive(true);
         }
     }
+
+    [PunRPC]
+    public void RecomecarPartidaParaTodos()
+    {
+        //Esconde o texto e o botão pois a partida vai iniciar
+        textStatus.gameObject.SetActive(false);
+        buttonIniciarPartida.gameObject.SetActive(false);
+        buttonRecomecarPartida.gameObject.SetActive(false);
+
+        //Procura o objeto e classe GameManager e inicia a partida
+        var gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        gameManager.IniciarPartida();
+    }
+
+    //Método executado automaticamente pelo PhotonPun quando o jogador dono da sessão foi alterado (ex.: o criador saiu da sala)
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        //Atualiza a interface
+        AtualizarUI();
+    }
 }
