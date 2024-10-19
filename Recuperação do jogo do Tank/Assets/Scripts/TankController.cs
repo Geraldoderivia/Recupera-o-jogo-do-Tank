@@ -26,7 +26,7 @@ public class TankController : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if (gm.ehGameOver)
+        if (gm.GameOver)
         {
             return;
         }
