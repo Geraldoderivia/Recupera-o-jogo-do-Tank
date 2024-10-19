@@ -14,16 +14,25 @@ public class Projectile : MonoBehaviourPun
     //GameObject do tanque que disparou
     private GameObject atirador;
 
-    // Start is called before the first frame update
-    void Start()
+    //Inicializa a bala informando quem disparou ela
+    public void Inicializar(GameObject atirador)
     {
-        
+        this.atirador = atirador;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //Faz a bala se movimentar 
+        transform.Translate(Vector3.right * velocidade * Time.deltaTime);
+
+        //Contabiliza o tempo para saber se deve destruir a bala
+        tempoDeVidaAtual += Time.deltaTime;
+        if (tempoDeVidaAtual > tempoDeVida)
+        {
+            //Destrói a bala
+            AutoDestruir();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
