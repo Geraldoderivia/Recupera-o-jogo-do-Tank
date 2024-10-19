@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void IniciarPartida()
     {
         GameOver = false;
-        FindObjectOfType<PontuacaoManager>().ResetarPontuacao(PhotonNetwork.LocalPlayer);
+        FindObjectOfType<ScoreManager>().ResetarPontuacao(PhotonNetwork.LocalPlayer);
 
         //Faz o cronometro aparecer
         tempoDePartidaAtual = tempoDePartida;
