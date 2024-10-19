@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1000833922525642784}
   - component: {fileID: 1000833922525642787}
   m_Layer: 0
-  m_Name: tank_basic_black
+  m_Name: TanquePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
