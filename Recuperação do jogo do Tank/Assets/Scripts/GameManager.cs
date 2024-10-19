@@ -23,12 +23,37 @@ public class GameManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        
+        //Inicia como falso, pois antes de iniciar a partida, o contador não deve aparecer
+        textTimer.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    //Método responsável por iniciar a partida
+    public void IniciarPartida()
+    {
+        GameOver = false;
+        FindObjectOfType<PontuacaoManager>().ResetarPontuacao(PhotonNetwork.LocalPlayer);
+
+        //Faz o cronometro aparecer
+        tempoDePartidaAtual = tempoDePartida;
+
+        textTimer.gameObject.SetActive(true);
+        AtualizarTimerUI();
+
+        //Inicia uma co-rotina que executa a cada 1 segundo para atualizar o tempo do cronometro
+        StartCoroutine(TimerCoroutine());
+
+        //Obtém o índice do jogador para saber onde o tanque deve nascer
+        var indiceJogador = (PhotonNetwork.LocalPlayer.ActorNumber -1) % localizacoesSpawn.Count;
+        var go = localizacoesSpawn[indiceJogador];
+        var go = ObterLocalizacaoSpawn(PhotonNetwork.LocalPlayer);
+
+        //Cria o tanque no local onde ele deve ser criado
+        var tanque = PhotonNetwork.Instantiate("TanquePrefab", go.transform.position, go.transform.rotation);
     }
 }
