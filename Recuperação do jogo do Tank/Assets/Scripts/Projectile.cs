@@ -52,4 +52,19 @@ public class Projectile : MonoBehaviourPun
 
         AutoDestruir();
     }
+
+    void AutoDestruir()
+    {
+        //Somente pode destruir o objeto quem é o dono dele ou o host da partida
+        if (photonView.IsMine)
+        {
+            // Destrói a bala após a colisão
+            PhotonNetwork.Destroy(gameObject);
+        }
+        else if (PhotonNetwork.IsMasterClient)
+        {
+            // Destrói a bala após a colisão
+            PhotonNetwork.Destroy(gameObject);
+        }
+    }
 }
