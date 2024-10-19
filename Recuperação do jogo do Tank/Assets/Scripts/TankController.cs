@@ -25,4 +25,23 @@ public class TankController : MonoBehaviourPun
     {
         
     }
+
+    void MoverTanque(float moverHorizonalmente, float moverVerticalmente)
+    {
+        // Movimento do tanque (Move o tanque na direção em que ele está apontado)
+        Vector2 movimento = transform.right * moverVerticalmente * _velocidadeMovimento * Time.fixedDeltaTime;
+        rb.MovePosition(rb.position + movimento);
+
+        // Rotaciona o tanque (A ou D) - move no eixo Z para 2D
+        float rotacao = -moverHorizonalmente * _velocidadeRotacao * Time.fixedDeltaTime;
+        rb.MoveRotation(rb.rotation + rotacao);
+    }
+
+    //Método herdado da interface que trata o recebimento de dano
+    public void ReceberDano()
+    {
+        //No caso deste jogo, ao receber um dano, o tanque é teleportado para a área de respawn
+        //Por este motivo, envia uma mensagem ao dono deste tanque para que ele resete a posição pois só ele pode fazer isso
+        photonView.RPC("ResetarPosicaoNoSpawn", photonView.Owner);
+    }
 }
