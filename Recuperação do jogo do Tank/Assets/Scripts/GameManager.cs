@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using System.Linq;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -27,12 +28,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         textTimer.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     //Método responsável por iniciar a partida
     public void IniciarPartida()
     {
@@ -49,8 +44,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         StartCoroutine(TimerCoroutine());
 
         //Obtém o índice do jogador para saber onde o tanque deve nascer
-        var indiceJogador = (PhotonNetwork.LocalPlayer.ActorNumber -1) % localizacoesSpawn.Count;
-        var go = localizacoesSpawn[indiceJogador];
         var go = ObterLocalizacaoSpawn(PhotonNetwork.LocalPlayer);
 
         //Cria o tanque no local onde ele deve ser criado
@@ -92,5 +85,35 @@ public class GameManager : MonoBehaviourPunCallbacks
             //Para o contador de tempo
             StopCoroutine(TimerCoroutine());
         }
+    }
+
+    //Método responsável por finalizar o jogo
+    [PunRPC]
+    public void TerminarJogo()
+    {
+        //Marca o jogo como finalizado
+        GameOver = true;
+
+        FindObjectsByType<TankController>(FindObjectsSortMode.None).ToList().ForEach(tanque =>
+        {
+            if (tanque.photonView.IsMine)
+            {
+                //Destrói o tanque
+                PhotonNetwork.Destroy(tanque.gameObject);
+            }
+        });
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            FindFirstObjectByType<LobbyUIManager>().MostrarResultados();
+        }
+    }
+
+    //Método responsável por atualizar o tempo
+    void AtualizarTimerUI()
+    {
+        int minutos = Mathf.FloorToInt(tempoDePartidaAtual / 60);
+        int segundos = Mathf.FloorToInt(tempoDePartidaAtual % 60);
+        textTimer.text = string.Format("{0:00}:{1:00}", minutos, segundos);
     }
 }
