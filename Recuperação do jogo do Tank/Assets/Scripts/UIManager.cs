@@ -71,4 +71,24 @@ public class UIManager : MonoBehaviourPunCallbacks
             photonView.RPC("RecomecarPartidaParaTodos", RpcTarget.All);
         }
     }
+
+    [PunRPC]
+    public void IniciarPartidaParaTodos()
+    {
+        //Esconde o texto e o botão pois a partida vai iniciar
+        textStatus.gameObject.SetActive(false);
+        buttonIniciarPartida.gameObject.SetActive(false);
+
+        //Procura o objeto e classe GameManager e inicia a partida
+        var gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        gameManager.IniciarPartida();
+    }
+
+    public void MostrarResultados()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            buttonRecomecarPartida.gameObject.SetActive(true);
+        }
+    }
 }
