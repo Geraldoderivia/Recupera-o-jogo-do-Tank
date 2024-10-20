@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class TankTurret : MonoBehaviourPun
+public class TankTurret : MonoBehaviourPun, IShootable
 {
     // Localização de onde vai sair a bala
     public Transform LocalizacaoSaidaBala;

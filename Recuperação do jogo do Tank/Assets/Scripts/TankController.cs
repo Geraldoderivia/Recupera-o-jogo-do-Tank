@@ -5,7 +5,7 @@ using Photon.Pun;
 using Photon.Pun.Demo.PunBasics;
 
 
-public class TankController : MonoBehaviourPun
+public class TankController : MonoBehaviourPun, IDamageable
 {
     //Velocidade de rotação do tanque
     public float _velocidadeRotacao = 100f;
