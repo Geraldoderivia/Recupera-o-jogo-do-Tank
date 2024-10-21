@@ -1616,6 +1616,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4074216112513401222, guid: 31dc6a175b998c24facfb007b6cfd640, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.96
+      objectReference: {fileID: 0}
     - target: {fileID: 4350402600906389490, guid: 31dc6a175b998c24facfb007b6cfd640, type: 3}
       propertyPath: sceneViewId
       value: 5
@@ -2169,7 +2173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textPontuacao: {fileID: 1280373639}
-  actorNumber: 0
+  actorNumber: 2
 --- !u!114 &1772541143
 MonoBehaviour:
   m_ObjectHideFlags: 0
